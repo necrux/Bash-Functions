@@ -22,7 +22,7 @@ function repos {
   case ${#CODE_PATH[@]} in
   0)
     echo "No repos found."
-    return
+    return 1
     ;;
   1)
     for destination in ${!CODE_PATH[@]}; do
