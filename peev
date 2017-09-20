@@ -1,0 +1,41 @@
+#!/bin/bash
+# peev (Python Environment Exists Virtually)
+# Function to select and activate different Python virtual environments; filter menu with positional parameters.
+# Be sure to fill in the PEEV_DIR variable (first line of function).
+# Bash 4+ required for associative arrays.
+function peev {
+  local PEEV_DIR=
+  declare -A PEEV_PATH
+
+  if [ -z "$1" ]; then
+    for peev in $(ls ${PEEV_DIR}); do
+      PEEV_PATH[${peev}]="${PEEV_DIR}/${peev}/bin/activate"
+    done
+  else
+    for peev in $(ls ${PEEV_DIR} | grep -i $1); do
+      PEEV_PATH[${peev}]="${PEEV_DIR}/${peev}/bin/activate"
+    done
+  fi
+
+  case ${#PEEV_PATH[@]} in
+  0)
+    echo "No environments found."
+    return 1
+    ;;
+  1)
+    for environment in ${!PEEV_PATH[@]}; do
+      source ${PEEV_PATH[${environment}]}
+    done
+    ;;
+  *)
+    select environment in ${!PEEV_PATH[@]}; do
+      if [ -e "${PEEV_PATH[${environment}]}" ]; then
+        source ${PEEV_PATH[${environment}]}
+        break
+      else
+        echo "Incorrect entry."
+      fi > /dev/null 2>&1
+    done
+    ;;
+  esac
+}
