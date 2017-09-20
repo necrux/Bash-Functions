@@ -1,0 +1,50 @@
+# Function to select local git repo from a menu; filter menu with positional parameters.
+# Be sure to fill in the REPO_DIR variable (first line of function).
+# Bash 4+ required for associative arrays.
+## Copy/Paste Nerds Beware ##
+# This function uses a here-doc with the '<<-' operator.
+# This allows you to indent the here-doc, but it forces a tab at the start of each line.
+function repos {
+  REPO_DIR=
+  declare -A CODE_PATH
+
+  if [ -z "$1" ]; then
+    for repo in $(ls ${REPO_DIR}); do
+      CODE_PATH[${repo}]="${REPO_DIR}/${repo}"
+    done
+  else
+    for repo in $(ls ${REPO_DIR} | grep -i $1); do
+      CODE_PATH[${repo}]="${REPO_DIR}/${repo}"
+    done
+  fi
+
+  case ${#CODE_PATH[@]} in
+  0)
+    echo "No repos found."
+    return
+    ;;
+  1)
+    for destination in ${!CODE_PATH[@]}; do
+      cd ${CODE_PATH[${destination}]}
+    done
+    ;;
+  *)
+    select destination in ${!CODE_PATH[@]}; do
+      if [ -e "${CODE_PATH[${destination}]}" ]; then
+        cd ${CODE_PATH[${destination}]}
+        break
+      else
+        echo "Incorrect entry."
+      fi > /dev/null 2>&1
+    done
+    ;;
+  esac
+	cat <<- EOF
+
+	  $(echo -e "\e[0;31m")    ****** GIT STATUS ******$(echo -e "\e[0m")
+	  $(git status)
+
+	  $(echo -e "\e[0;31m")    ** DIRECTORY CONTENTS **$(echo -e "\e[0m")
+	  $(ls -l)
+	EOF
+}
