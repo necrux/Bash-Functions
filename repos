@@ -6,7 +6,7 @@
 # This function uses a here-doc with the '<<-' operator.
 # This allows you to indent the here-doc, but it forces a tab at the start of each line.
 function repos {
-  REPO_DIR=
+  local REPO_DIR=
   declare -A CODE_PATH
 
   if [ -z "$1" ]; then
