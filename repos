@@ -1,3 +1,4 @@
+#!/bin/bash
 # Function to select local git repo from a menu; filter menu with positional parameters.
 # Be sure to fill in the REPO_DIR variable (first line of function).
 # Bash 4+ required for associative arrays.
