@@ -7,32 +7,32 @@
 # This allows you to indent the here-doc, but it forces a tab at the start of each line.
 function repos {
   local REPO_DIR=
-  declare -A CODE_PATH
+  declare -A REPO_PATH
 
   if [ -z "$1" ]; then
     for repo in $(ls ${REPO_DIR}); do
-      CODE_PATH[${repo}]="${REPO_DIR}/${repo}"
+      REPO_PATH[${repo}]="${REPO_DIR}/${repo}"
     done
   else
     for repo in $(ls ${REPO_DIR} | grep -i $1); do
-      CODE_PATH[${repo}]="${REPO_DIR}/${repo}"
+      REPO_PATH[${repo}]="${REPO_DIR}/${repo}"
     done
   fi
 
-  case ${#CODE_PATH[@]} in
+  case ${#REPO_PATH[@]} in
   0)
     echo "No repos found."
     return 1
     ;;
   1)
-    for destination in ${!CODE_PATH[@]}; do
-      cd ${CODE_PATH[${destination}]}
+    for destination in ${!REPO_PATH[@]}; do
+      cd ${REPO_PATH[${destination}]}
     done
     ;;
   *)
-    select destination in ${!CODE_PATH[@]}; do
-      if [ -e "${CODE_PATH[${destination}]}" ]; then
-        cd ${CODE_PATH[${destination}]}
+    select destination in ${!REPO_PATH[@]}; do
+      if [ -e "${REPO_PATH[${destination}]}" ]; then
+        cd ${REPO_PATH[${destination}]}
         break
       else
         echo "Incorrect entry."
