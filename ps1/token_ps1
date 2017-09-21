@@ -1,0 +1,41 @@
+#!/bin/bash
+# This PS1 will show which branch you are working out of (if applicable) and if that branch is dirty.
+# You also have the option to use a token expiration time stamp to change your prompt.
+#   This is beneficial if your workflow involves authenticating to multiple accounts via Bash.
+#   To use this feature, set the first 3 variables under the 'active_env' function.
+
+# Formatting.
+BOLD=$(tput bold)
+WHITE=$(tput setaf 7)
+BLUE=$(tput setaf 6)
+GREEN=$(tput setaf 2)
+RED=$(tput setaf 1)
+YELLOW=$(tput setaf 3)
+NF=$(tput sgr0) #No Formatting
+
+# Environment details.
+function active_env {
+  readonly ENV_TOKEN_EXPIRATION=
+  readonly ENV_ID=
+  readonly ENV_NAME=
+
+  if [[ -z ${ENV_TOKEN_EXPIRATION} || ${ENV_TOKEN_EXPIRATION} -lt $(date +%s) ]]; then
+    echo "${USER}@${HOSTNAME}"
+  elif [[ ${ENV_TOKEN_EXPIRATION} -gt $(date +%s) ]]; then
+    echo "${ENV_ID} - ${ENV_NAME}";
+  fi
+}
+
+# Check whether Git repo is dirty.
+function is_dirty {
+  if [ -z "$(git status 2>/dev/null | grep -o 'nothing to commit')" ]; then
+    echo '*'
+  fi
+}
+
+# Determine which branch you are on.
+function git_branch {
+  git branch 2>/dev/null | awk -v DIRTY=$(is_dirty) '{print "(" $2 DIRTY ")"}'
+}
+
+export PS1="\[${BOLD}\]\[${WHITE}\][\[${GREEN}\]\$(active_env)\[${WHITE}\]]:\[${BLUE}\]\w\[${WHITE}\] \[${RED}\]\$(git_branch)\[${WHITE}\]\$ \[${NF}\]"
