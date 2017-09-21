@@ -1,0 +1,25 @@
+#!/bin/bash
+# This PS1 will show which branch you are working out of (if applicable) and if that branch is dirty.
+
+# Formatting.
+BOLD=$(tput bold)
+WHITE=$(tput setaf 7)
+BLUE=$(tput setaf 6)
+GREEN=$(tput setaf 2)
+RED=$(tput setaf 1)
+YELLOW=$(tput setaf 3)
+NF=$(tput sgr0) #No Formatting
+
+# Check whether Git repo is dirty.
+function is_dirty {
+  if [ -z "$(git status 2>/dev/null | grep -o 'nothing to commit')" ]; then
+    echo '*'
+  fi
+}
+
+# Determine which branch you are on.
+function git_branch {
+  git branch 2>/dev/null | awk -v DIRTY=$(is_dirty) '{print "(" $2 DIRTY ")"}'
+}
+
+export PS1="\[${BOLD}\]\[${WHITE}\][\[${GREEN}\]\u@\h\[${WHITE}\]]:\[${BLUE}\]\w\[${WHITE}\] \[${RED}\]\$(git_branch)\[${WHITE}\]\$ \[${NF}\]"
