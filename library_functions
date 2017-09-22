@@ -75,16 +75,24 @@ B_DEFAULT=$(tput setab 9)
 
 # Check if a command is installed.
 function is_command {
-  hash $1 > /dev/null 2>&1
-  if [ $? != 0 ]; then
-    echo "Command '$1' not found."
+  local FAILURE
+
+  for program in $@; do
+    hash ${program} > /dev/null 2>&1
+    if [ $? != 0 ]; then
+      echo "Command not found: ${program}"
+      FAILURE='true'
+    fi
+  done
+
+  if [ ! -z ${FAILURE} ]; then
     exit 127
   fi
 }
 
 # Send message to stderr with a timestamp; $1 is the returned exit status.
 function err {
-  EXIT=$1
+  local EXIT=$1
   shift 1
   echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $@" >&2
   exit ${EXIT}
