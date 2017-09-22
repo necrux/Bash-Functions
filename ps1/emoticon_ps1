@@ -1,6 +1,6 @@
 #!/bin/bash
-# This is a fun PS1 that adds some emotion to the command line.
-# Successful, failed, and aborted commands all have their own unique emotion.
+# This is a fun PS1 that adds some emotion to the command line. Successful,
+# failed, missing, and aborted commands all have their own unique emotion.
 # If you ever find yourself teaching Linux, this can actually serve as a bit
 #   of tangential learning; it begs questions that guide you towards a
 #   discussion about the exciting world of exit codes and case statements!
