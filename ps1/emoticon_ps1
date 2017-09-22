@@ -20,6 +20,10 @@ function emoticon {
     # Previous command was successful.
     echo "${GREEN};) "
     ;;
+  127)
+    # Previous command not found.
+    echo "${BLUE}%) "
+    ;;
   130)
     # Previous command terminated with Ctrl-C.
     echo "${YELLOW}:| "
