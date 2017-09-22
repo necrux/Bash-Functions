@@ -2,12 +2,12 @@
 # This PS1 will show which branch you are working out of (if applicable) and if that branch is dirty.
 
 # Formatting.
-BOLD=$(tput bold)
-WHITE=$(tput setaf 7)
-BLUE=$(tput setaf 6)
-GREEN=$(tput setaf 2)
 RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
 YELLOW=$(tput setaf 3)
+BLUE=$(tput setaf 6)
+WHITE=$(tput setaf 7)
+BOLD=$(tput bold)
 NF=$(tput sgr0) #No Formatting.
 
 # Check whether Git repo is dirty.
