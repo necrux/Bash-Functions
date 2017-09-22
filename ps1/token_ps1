@@ -11,7 +11,7 @@ BLUE=$(tput setaf 6)
 GREEN=$(tput setaf 2)
 RED=$(tput setaf 1)
 YELLOW=$(tput setaf 3)
-NF=$(tput sgr0) #No Formatting
+NF=$(tput sgr0) #No Formatting.
 
 # Environment details.
 function active_env {
