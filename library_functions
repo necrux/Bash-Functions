@@ -1,0 +1,91 @@
+#!/bin/bash
+# A collection of commonly used functions (and colors).
+
+    ### Formatting with tput (more portable).
+
+# Formatting.
+BOLD=$(tput bold)
+NF=$(tput sgr0) #No Formatting.
+
+# Font color.
+BLACK=$(tput setaf 0)
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+YELLOW=$(tput setaf 3)
+BLUE=$(tput setaf 4)
+MAGENTA=$(tput setaf 5)
+CYAN=$(tput setaf 6)
+WHITE=$(tput setaf 7)
+DEFAULT=$(tput setaf 9)
+
+# Background color.
+B_BLACK=$(tput setab 0)
+B_RED=$(tput setab 1)
+B_GREEN=$(tput setab 2)
+B_YELLOW=$(tput setab 3)
+B_BLUE=$(tput setab 4)
+B_MAGENTA=$(tput setab 5)
+B_CYAN=$(tput setab 6)
+B_WHITE=$(tput setab 7)
+B_DEFAULT=$(tput setab 9)
+
+    ### Formatting with escape sequences (Bash exclusive).
+
+## Misc. formatting.
+#INVERT='\e[7m'
+#NF='\e[0m' #No Formatting.
+#
+## Font color.
+#DEFAULT='\e[39m'
+#BLACK='\e[0;30m'
+#DARKGRAY='\e[1;30m'
+#BLUE='\e[0;34m'
+#LIGHTBLUE='\e[1;34m'
+#GREEN='\e[0;32m'
+#LIGHTGREEN='\e[1;32m'
+#CYAN='\e[0;36m'
+#LIGHTCYAN='\e[1;36m'
+#RED='\e[0;31m'
+#LIGHTREAD='\e[1;31m'
+#PURPLE='\e[0;35m'
+#LIGHTPURPLE='\e[1;35m'
+#BROWNORANGE='\e[0;33m'
+#YELLOW='\e[1;33m'
+#LIGHTGRAY='\e[0;37m'
+#WHITE='\e[1;37m'
+#
+## Background color.
+#B_DEFAULT='\e[49m'
+#B_BLACK='\e[40m'
+#B_RED='\e[41m'
+#B_GREEN='\e[42m'
+#B_YELLOW='\e[43m'
+#B_BLUE='\e[44m'
+#B_MAGENTA='\e[45m'
+#B_CYAN='\e[46m'
+#B_LIGHTGRAY='\e[47m'
+#B_DARKGRAY='\e[100m'
+#B_LIGHTRED='\e[101m'
+#B_LIGHTGREEN='\e[102m'
+#B_LIGHTYELLOW='\e[103m'
+#B_LIGHTBLUE='\e[104m'
+#B_LIGHTMAGENTA='\e[105m'
+#B_LIGHTCYAN='\e[106m'
+#B_WHITE='\e[107m'
+
+# Check if a command is installed.
+function is_command {
+  hash $1 > /dev/null 2>&1
+  if [ $? != 0 ]; then
+    echo "Command '$1' not found."
+    exit 127
+  fi
+}
+
+# Send message to stderr with a timestamp; $1 is the returned exit status.
+function err {
+  EXIT=$1
+  shift 1
+  echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $@" >&2
+  exit ${EXIT}
+}
