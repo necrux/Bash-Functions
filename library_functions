@@ -73,6 +73,21 @@ B_DEFAULT=$(tput setab 9)
 #B_LIGHTCYAN='\e[106m'
 #B_WHITE='\e[107m'
 
+# Skeleton usage function.
+function usage {
+cat << EOF
+This is a skeletion usage function. It contains a short description, command syntax,
+and a list of available options.
+
+SYNTAX
+  toolkit [ option1 | option2 | help ]
+
+  option1               Option 1 description.
+  option2               Option 2 description.
+  help                  Print this message and exit.
+EOF
+}
+
 # Check if a command is installed.
 function is_command {
   local FAILURE
