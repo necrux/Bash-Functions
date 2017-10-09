@@ -96,7 +96,7 @@ function root_check {
   fi
 }
 
-# Check if a command is installed.
+# Check if command(s) is installed.
 function is_command {
   local FAILURE
 
