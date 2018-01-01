@@ -1,0 +1,16 @@
+#!/bin/bash
+# Function to sync books from local directory with your Kindle.
+# Be sure to fill in the following variables (first three lines of function):
+#   TO
+#   FROM
+#   TYPE
+# The ${TYPE} varible is the file extension for the books: pdf, mobi, epub, etc.
+function books {
+  local TO=
+  local FROM=
+  local TYPE=
+
+  for book in *.${TYPE}; do
+    echo | mail -a ${book} -r ${FROM} ${TO}
+  done
+}
