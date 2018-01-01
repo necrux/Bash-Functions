@@ -5,6 +5,8 @@
 #   FROM
 #   TYPE
 # The ${TYPE} varible is the file extension for the books: pdf, mobi, epub, etc.
+# You can read more about this process at:
+#   https://www.amazon.com/gp/sendtokindle/email
 function books {
   local TO=
   local FROM=
