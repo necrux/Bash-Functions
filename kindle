@@ -15,11 +15,11 @@
 function books {
   local TO=
   local FROM=
-  local TYPE=
-  local CONVERT=no
+  local -l TYPE=
+  local -l CONVERT=no
 
   local -l ANS
-  local -i COUNT=$(ls *.${TYPE} | wc -l)
+  local -i COUNT=$((ls *.${TYPE} | wc -l) > /dev/null 2>&1)
 
   # Font color.
   RED=$(tput setaf 1)
@@ -37,10 +37,15 @@ function books {
     local SUBJECT=" "
   fi
 
-  echo -e "  Greetings Reader. I have found the following ${RED}${COUNT}${NF} book(s):\n"
-  ls *.${TYPE}
-  echo -e "\nWould you like to send these book(s) to your Kindle?"
-  read -p "N/y > " ANS
+  if [ ${COUNT} -gt 0 ]; then
+    echo -e "  Greetings Reader. I have found the following ${RED}${COUNT}${NF} book(s):\n"
+    ls *.${TYPE}
+    echo -e "\nWould you like to send these book(s) to your Kindle?"
+    read -p "N/y > " ANS
+  else
+    echo "No '${RED}${TYPE}${NF}' books found in the current directory."
+    return 1
+  fi
 
   if echo ${ANS} | grep '^y' > /dev/null 2>&1; then
     for book in *.${TYPE}; do
