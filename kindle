@@ -5,14 +5,46 @@
 #   FROM
 #   TYPE
 # The ${TYPE} varible is the file extension for the books: pdf, mobi, epub, etc.
+#
+# PDFs can be converted to the Kindle format so you can take advantage of functionality
+# such as variable font size, annotations, and Whispersync. To have a document converted 
+# to Kindle format (.azw), set the ${CONVERT} variable to 'yes'.
+#
 # You can read more about this process at:
 #   https://www.amazon.com/gp/sendtokindle/email
 function books {
   local TO=
   local FROM=
   local TYPE=
+  local CONVERT=no
 
-  for book in *.${TYPE}; do
-    echo | mail -a ${book} -r ${FROM} ${TO}
-  done
+  local -l ANS
+  local -i COUNT=$(ls *.${TYPE} | wc -l)
+
+  # Font color.
+  RED=$(tput setaf 1)
+  GREEN=$(tput setaf 2)
+  YELLOW=$(tput setaf 3)
+  BLUE=$(tput setaf 4)
+  MAGENTA=$(tput setaf 5)
+  CYAN=$(tput setaf 6)
+  WHITE=$(tput setaf 7)
+  NF=$(tput sgr0) #No Formatting.
+
+  if [ "${TYPE}" == "pdf" ] && [ "${CONVERT}" == "yes" ]; then
+    local SUBJECT=convert
+  else
+    local SUBJECT=" "
+  fi
+
+  echo -e "  Greetings Reader. I have found the following ${RED}${COUNT}${NF} book(s):\n"
+  ls *.${TYPE}
+  echo -e "\nWould you like to send these book(s) to your Kindle?"
+  read -p "N/y > " ANS
+
+  if echo ${ANS} | grep '^y' > /dev/null 2>&1; then
+    for book in *.${TYPE}; do
+      echo | mail -a ${book} -s ${SUBJECT} -r ${FROM} ${TO}
+    done
+  fi
 }
