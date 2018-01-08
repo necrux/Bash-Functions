@@ -43,7 +43,7 @@ function books {
     echo -e "\nWould you like to send these book(s) to your Kindle?"
     read -p "N/y > " ANS
   else
-    echo "No '${RED}${TYPE}${NF}' books found in the current directory: $(pwd)"
+    echo "No '${RED}${TYPE}${NF}' books found in the current directory: ${PWD}"
     return 1
   fi
 
