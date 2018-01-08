@@ -15,11 +15,11 @@
 function books {
   local TO=
   local FROM=
-  local -l TYPE=
+  local TYPE=
   local -l CONVERT=no
 
   local -l ANS
-  local -i COUNT=$((ls *.${TYPE} | wc -l) > /dev/null 2>&1)
+  local -i COUNT=$((ls *.${TYPE} | wc -l) 2> /dev/null)
 
   # Font color.
   RED=$(tput setaf 1)
@@ -31,7 +31,7 @@ function books {
   WHITE=$(tput setaf 7)
   NF=$(tput sgr0) #No Formatting.
 
-  if [ "${TYPE}" == "pdf" ] && [ "${CONVERT}" == "yes" ]; then
+  if [ "${TYPE,,}" == "pdf" ] && [ "${CONVERT}" == "yes" ]; then
     local SUBJECT=convert
   else
     local SUBJECT=" "
@@ -43,7 +43,7 @@ function books {
     echo -e "\nWould you like to send these book(s) to your Kindle?"
     read -p "N/y > " ANS
   else
-    echo "No '${RED}${TYPE}${NF}' books found in the current directory."
+    echo "No '${RED}${TYPE}${NF}' books found in the current directory: $(pwd)"
     return 1
   fi
 
