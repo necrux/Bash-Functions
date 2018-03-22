@@ -19,7 +19,7 @@ function is_dirty {
 
 # Determine which branch you are on.
 function git_branch {
-  git branch 2>/dev/null | awk -v DIRTY=$(is_dirty) '/^*/ {print "(" $2 DIRTY ")"}'
+  git branch 2>/dev/null | awk -v DIRTY=$(is_dirty) '/^\*/ {print "(" $2 DIRTY ")"}'
 }
 
 export PS1="\[${BOLD}\]\[${WHITE}\][\[${GREEN}\]\u@\h\[${WHITE}\]]:\[${BLUE}\]\W\[${WHITE}\] \[${RED}\]\$(git_branch)\[${WHITE}\]\$ \[${NF}\]"
