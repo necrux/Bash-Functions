@@ -38,4 +38,4 @@ function git_branch {
   git branch 2>/dev/null | awk -v DIRTY=$(is_dirty) '/^*/ {print "(" $2 DIRTY ")"}'
 }
 
-export PS1="\[${BOLD}\]\[${WHITE}\][\[${GREEN}\]\$(active_env)\[${WHITE}\]]:\[${BLUE}\]\w\[${WHITE}\] \[${RED}\]\$(git_branch)\[${WHITE}\]\$ \[${NF}\]"
+export PS1="\[${BOLD}\]\[${WHITE}\][\[${GREEN}\]\$(active_env)\[${WHITE}\]]:\[${BLUE}\]\W\[${WHITE}\] \[${RED}\]\$(git_branch)\[${WHITE}\]\$ \[${NF}\]"

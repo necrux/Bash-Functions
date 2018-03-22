@@ -35,4 +35,4 @@ function emoticon {
   esac
 }
 
-export PS1="\[${BOLD}\]\[${WHITE}\][\[${GREEN}\]\u@\h\[${WHITE}\]]:\[${BLUE}\]\w\[${WHITE}\] \[${RED}\]\$(emoticon)\[${WHITE}\]\$ \[${NF}\]"
+export PS1="\[${BOLD}\]\[${WHITE}\][\[${GREEN}\]\u@\h\[${WHITE}\]]:\[${BLUE}\]\W\[${WHITE}\] \[${RED}\]\$(emoticon)\[${WHITE}\]\$ \[${NF}\]"
