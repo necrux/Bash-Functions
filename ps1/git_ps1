@@ -11,15 +11,23 @@ BOLD=$(tput bold)
 NF=$(tput sgr0) #No Formatting.
 
 # Check whether Git repo is dirty.
-function is_dirty {
+function is-dirty {
   if [ -z "$(git status 2>/dev/null | grep -o 'nothing to commit')" ]; then
     echo '*'
   fi
 }
 
 # Determine which branch you are on.
-function git_branch {
-  git branch 2>/dev/null | awk -v DIRTY=$(is_dirty) '/^\*/ {print "(" $2 DIRTY ")"}'
+function git-branch {
+  git branch 2>/dev/null | awk -v DIRTY=$(is-dirty) '/^\*/ {print "(" $2 DIRTY ")"}'
 }
 
-export PS1="\[${BOLD}\]\[${WHITE}\][\[${GREEN}\]\u@\h\[${WHITE}\]]:\[${BLUE}\]\W\[${WHITE}\] \[${RED}\]\$(git_branch)\[${WHITE}\]\$ \[${NF}\]"
+# Determine if pyenv is in use. 
+function pyenv-check {
+  if pyenv local >/dev/null 2>&1; then
+    local PY_ENV=$(pyenv local)
+    echo "(${PY_ENV})"
+  fi
+}
+
+export PS1="\[${BOLD}\]\[${WHITE}\]\$(pyenv-check)[\[${GREEN}\]\u@\h\[${WHITE}\]]:\[${BLUE}\]\W\[${WHITE}\] \[${RED}\]\$(git-branch)\[${WHITE}\]\$ \[${NF}\]"
